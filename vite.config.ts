@@ -3,9 +3,9 @@ import react from '@vitejs/plugin-react';
 import { fileURLToPath, URL } from 'node:url';
 
 // https://vite.dev/config/
-export default defineConfig({
+export default defineConfig(({ mode }) => ({
   // Для GitHub Pages (repo name)
-  base: process.env.NODE_ENV === 'production' ? '/online-shoe-store/' : '/',
+  base: mode === 'production' ? '/online-shoe-store/' : '/',
   plugins: [react()],
   resolve: {
     // ESM-совместимый способ указать путь к src
@@ -23,4 +23,4 @@ export default defineConfig({
       },
     },
   },
-});
+}));

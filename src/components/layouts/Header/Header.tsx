@@ -11,11 +11,7 @@ const Header = () => {
         {/* Логотип */}
         <div className={styles.headerLogo}>
           <Link to="/">
-            <img
-              src="/img/header-logo.png"
-              alt="Логотип"
-              className={styles.logo}
-            />
+            <div className={styles.logo}></div>
           </Link>
         </div>
 

@@ -10,6 +10,8 @@ import ProductPage from '@/components/pages/ProductPage/ProductPage';
 import CartPage from '@/components/pages/CartPage/CartPage';
 import NotFoundPage from '@/components/pages/NotFoundPage/NotFoundPage';
 
+const basename = import.meta.env.MODE === 'production' ? '/online-shoe-store/' : '/';
+
 const router = createBrowserRouter([
   {
     path: '/',
@@ -25,7 +27,7 @@ const router = createBrowserRouter([
     ],
   },
 ], {
-  basename: '/online-shoe-store/'
+  basename
 });
 
 const AppRoutes = () => <RouterProvider router={router} />;
