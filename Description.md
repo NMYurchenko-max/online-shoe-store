@@ -12,7 +12,7 @@ Backend: реализован, менять нельзя
 1. Глобально выстроить правильную структуру для реализации функциональности приложения.
 2. Все компоненты имеют комплект файлов: *.tsx, *.module.css, index.ts
 3. Используем generic -widgets для формирования компонентов с разнообразными типами.
-4. Стилизация вёрстки с использованием CSS и  Botsrat.5. (как в постановке задания), в  проект временно поместила файл  styles.css в папку src, чтобы соблюсти  заказанные стили - отсюда беру код для стилизации компонентов
+4. Стилизация вёрстки с использованием CSS и Bootstrap 5 (как в постановке задания), в проект временно поместила файл styles.css в папку src, чтобы соблюсти заказанные стили - отсюда беру код для стилизации компонентов. Сочетание: CSS modules для компонентных стилей (ProductPage.module.css, Cart.module.css), Bootstrap/React-Bootstrap для глобальных стилей и UI-компонентов (Container, Row, Col, Button, Form). Импорт Bootstrap CSS в main.tsx или index.css для глобальных стилей.
 5. html разметка для использования в создании компонентов - дана в описании диплотной задачи.
 
 ```plantext
@@ -283,4 +283,58 @@ vite.config.ts с conditional base для dev/prod.
 - **Деплой**: gh-pages с Vite build.
 
 ## Текущий прогресс 
-Сборка без обшибок. Публикую 1-й этап, отправляю на проверку.
+- **Этапы 1-2 выполнены**: Базовая структура, роутинг, статические страницы, HTTP-запросы, каталог, топ-продажи, поиск и фильтрация (с исправлениями проблем: линтер, пагинация, фильтрация по категориям).
+- **Визуализация загрузки**: Preloader интегрирован частично в MainPage (для catalog.loading), CatalogPage (для categories.loading), TopSales (для topSales.loading); дублирующие preloaders удалены из Catalog; сообщение "Загрузка фильтров..." убрано из Categories; категории отцентрированы.
+- **Обработка ошибок**: ErrorMessage добавлен частично в Catalog, Categories, TopSales.
+- **Сборка**: Без ошибок, yarn lint проходит успешно.
+- **Проблемы исправлены**: Линтерные предупреждения, смешивание товаров при фильтрации, пагинация, позиционирование preloader'ов.
+- **Деплой**: Готов опубликован в состоянии реализации 1-2 этапов.
+
+Переходим к Этапу 3: Корзина, заказ и страница товара.
+
+### Детальный план Этапа 3
+1. **Item Slice и Saga** (для страницы товара):
+   - Создать itemSlice.ts: состояния для загрузки товара по ID (item, loading, error).
+   - Создать itemSaga.ts: GET /api/items/:id с loader и error handling (takeLatest(fetchItemStart, fetchItem)).
+   - Обновить reducers/index.ts: добавить itemReducer в rootReducer.
+   - Обновить sagas/rootSaga.ts: добавить itemSaga() в all[].
+   - Файлы: src/redux/reducers/itemSlice.ts, src/redux/sagas/itemSaga.ts.
+
+2. **ProductPage**:
+   - Реализовать ProductPage.tsx: useEffect для dispatch(fetchItemStart(id)) из URL params; отображение item (изображения, title, price, sizes, description); выбор размера (dropdown), количества (input); кнопка "Добавить в корзину" (dispatch addToCart, но cart slice пока не создан - stub).
+   - Интеграция Preloader (если item.loading), ErrorMessage (если item.error).
+   - Стили: ProductPage.module.css (на основе style.css: grid для изображений/описания, flex для выбора размера/количества).
+   - Файлы: src/components/pages/ProductPage/ProductPage.tsx, ProductPage.module.css, index.ts (export default ProductPage).
+
+3. **Cart Slice и Saga**:
+   - Создать cartSlice.ts: initialState { items: [], total: 0 }; actions: addToCart (PayloadAction<{id, size, quantity}>), removeFromCart (PayloadAction<number>), clearCart, updateTotal.
+   - Создать cartSaga.ts: watch для add/remove/clear, side-effects: saveToLocalStorage (используя cartService).
+   - Обновить reducers/index.ts и rootSaga.ts аналогично item.
+   - Файлы: src/redux/reducers/cartSlice.ts, src/redux/sagas/cartSaga.ts.
+
+4. **Cart Entity**:
+   - Создать Cart.tsx: отображение items (ProductCard или custom list с изображением, title, size, quantity, price, remove button); расчет total; кнопка "Оформить заказ".
+   - Стили: Cart.module.css (table-like layout, responsive).
+   - Файлы: src/components/entities/Cart/Cart.tsx, Cart.module.css, index.ts.
+
+5. **CartPage**:
+   - Реализовать CartPage.tsx: <Cart />; форма заказа (input phone, address); кнопка submit (dispatch submitOrder с cart.items + form data).
+   - Preloader для order.loading, ErrorMessage для order.error.
+   - Стили: CartPage.module.css (form styling).
+   - Файлы: src/components/pages/CartPage/CartPage.tsx, CartPage.module.css.
+
+6. **Order Slice и Saga**:
+   - Создать orderSlice.ts: initialState { loading: false, success: false, error: null }; actions: submitOrderStart (PayloadAction<OrderData>), submitOrderSuccess, submitOrderFailure.
+   - Создать orderSaga.ts: POST /api/order, при успехе: clearCart, set success true; error handling.
+   - Обновить reducers/index.ts и rootSaga.ts.
+   - Файлы: src/redux/reducers/orderSlice.ts, src/redux/sagas/orderSaga.ts.
+
+### Зависимые файлы
+- Новые: itemSlice.ts, itemSaga.ts, cartSlice.ts, cartSaga.ts, orderSlice.ts, orderSaga.ts, ProductPage/*, Cart/*, CartPage/*.
+- Обновляемые: reducers/index.ts (добавить reducers), sagas/rootSaga.ts (добавить sagas), routes/AppRoutes.tsx (добавить /product/:id -> ProductPage, /cart -> CartPage).
+
+### Следующие шаги после Этапа 3
+- Интеграция Preloader/ErrorMessage в новые компоненты (ProductPage, CartPage).
+- Тестирование: yarn dev, проверить загрузку товара, добавление/удаление в корзину, submit order.
+- yarn build, lint.
+- Перейти к Этапу 4 (дополнительные loader'ы, retry, error handling).

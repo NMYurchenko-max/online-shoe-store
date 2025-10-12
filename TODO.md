@@ -16,37 +16,24 @@
 
 ## Детальный план оставшихся задач
 
-### Этап 3: Корзина, заказ и страница товара
-1. **Item Slice и Saga** (для страницы товара):
-   - Создать itemSlice.ts: состояния для загрузки товара по ID.
-   - Создать itemSaga.ts: GET /api/items/:id с loader и error handling.
-   - Файлы: src/redux/reducers/itemSlice.ts, src/redux/sagas/itemSaga.ts, обновить rootSaga.ts и reducers/index.ts.
+### Этап 3: Корзина, заказ и страница товара (текущий)
+1. **Item Slice и Saga**:
+   - Создать itemSlice.ts, itemSaga.ts; обновить reducers/index.ts, rootSaga.ts.
 
 2. **ProductPage**:
-   - Реализовать ProductPage.tsx: загрузка товара, отображение изображений, размеров, количества.
-   - Логика выбора размера, добавления в корзину (dispatch addToCart).
-   - Стили: ProductPage.module.css.
-   - Файлы: src/components/pages/ProductPage/ProductPage.tsx, ProductPage.module.css.
+   - Реализовать ProductPage.tsx, ProductPage.module.css; добавить маршрут /product/:id в AppRoutes.tsx.
 
 3. **Cart Slice и Saga**:
-   - Создать cartSlice.ts: addToCart, removeFromCart, clearCart, состояния items, total.
-   - Создать cartSaga.ts: сохранение в localStorage при изменениях.
-   - Файлы: src/redux/reducers/cartSlice.ts, src/redux/sagas/cartSaga.ts, обновить rootSaga.ts и reducers/index.ts.
+   - Создать cartSlice.ts, cartSaga.ts; обновить reducers/index.ts, rootSaga.ts.
 
 4. **Cart Entity**:
-   - Создать Cart.tsx: отображение товаров в корзине, удаление, расчет суммы.
-   - Файлы: src/components/entities/Cart/Cart.tsx, Cart.module.css, index.ts.
+   - Создать Cart.tsx, Cart.module.css.
 
 5. **CartPage**:
-   - Реализовать CartPage.tsx: интеграция Cart entity, форма заказа (телефон, адрес).
-   - Dispatch submitOrder при отправке формы.
-   - Стили: CartPage.module.css.
-   - Файлы: src/components/pages/CartPage/CartPage.tsx, CartPage.module.css.
+   - Реализовать CartPage.tsx, CartPage.module.css; добавить маршрут /cart в AppRoutes.tsx.
 
 6. **Order Slice и Saga**:
-   - Создать orderSlice.ts: submitOrder, состояния loading, success, error.
-   - Создать orderSaga.ts: POST /api/order, очистка корзины при успехе.
-   - Файлы: src/redux/reducers/orderSlice.ts, src/redux/sagas/orderSaga.ts, обновить rootSaga.ts и reducers/index.ts.
+   - Создать orderSlice.ts, orderSaga.ts; обновить reducers/index.ts, rootSaga.ts.
 
 ### Этап 4: Loader'ы и обработка ошибок
 1. **Интеграция Preloader**:
