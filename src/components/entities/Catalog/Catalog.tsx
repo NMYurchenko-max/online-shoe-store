@@ -3,7 +3,6 @@ import { useAppDispatch } from '@/hooks/useAppDispatch';
 import { useAppSelector } from '@/hooks/useAppSelector';
 import { fetchCatalogStart } from '@/redux/reducers/catalogSlice';
 import type { Item } from '@/models/type';
-import Preloader from '@/components/shared/Preloader';
 import ErrorMessage from '@/components/shared/ErrorMessage';
 import catalogStyles from './Catalog.module.css';
 
@@ -36,7 +35,6 @@ const Catalog = () => {
     console.log('Order item:', item);
   };
 
-  if (loading && items.length === 0) return <Preloader show={true} />;
   if (error) return <ErrorMessage message={error} />;
 
   return (
@@ -58,12 +56,9 @@ const Catalog = () => {
         ))}
       </div>
       {hasMore && (
-        <>
-          <button className={catalogStyles.loadMore} onClick={handleLoadMore} disabled={loading}>
-            Загрузить ещё
-          </button>
-          {loading && <Preloader show={true} />}
-        </>
+        <button className={catalogStyles.loadMore} onClick={handleLoadMore} disabled={loading}>
+          Загрузить ещё
+        </button>
       )}
     </div>
   );

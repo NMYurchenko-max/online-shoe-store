@@ -5,12 +5,11 @@ import { setCategoryId } from '@/redux/reducers/catalogSlice';
 import { fetchCategoriesStart } from '@/redux/reducers/categoriesSlice';
 import type { Category } from '@/models/type';
 import ErrorMessage from '@/components/shared/ErrorMessage';
-import Preloader from '@/components/shared/Preloader';
 import styles from './Categories.module.css';
 
 const Categories: React.FC = () => {
   const dispatch = useAppDispatch();
-  const { items: categories, loading, error } = useAppSelector((state) => state.categories);
+  const { items: categories, error } = useAppSelector((state) => state.categories);
   const selectedCategoryId = useAppSelector((state) => state.catalog.categoryId);
 
   useEffect(() => {
@@ -21,7 +20,6 @@ const Categories: React.FC = () => {
     dispatch(setCategoryId(id));
   };
 
-  if (loading) return <Preloader show={true} />;
   if (error) return <ErrorMessage message={error} />;
 
   // Добавляем элемент "Все" в начало массива категорий
