@@ -1,0 +1,27 @@
+.categoriesContainer {
+  display: flex;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  gap: 10px;
+}
+
+.categoryText {
+  padding: 10px 8px;
+  background-color: white;
+  cursor: pointer;
+  transition: color 0.3s;
+  white-space: nowrap;
+}
+
+.categoryText:hover {
+  color: #007bff;
+}
+
+.categoryTextSelected {
+  color: #007bff;
+}
+
+.categoryTextSelected.categoryTextAll {
+  color: red;
+}

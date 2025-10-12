@@ -1,17 +1,26 @@
 /* src/components/pages/MainPage/MainPage.module.css */
 
 .container {
-  max-width: 1200px;
+  max-width: 1440px;
   margin: 0 auto;
   padding: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
 .topSalesSection,
 .categoriesSection {
   margin-top: 40px;
+  width: 100%;
+  /* max-width: 1200px; */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
 .sectionTitle {
   font-size: 2rem;
   margin-bottom: 20px;
+  text-align: center;
 }

@@ -6,17 +6,17 @@ const BASE_URL = import.meta.env.VITE_API_BASE_URL || '';
 
 const api: AxiosInstance = axios.create({
   baseURL: BASE_URL,
-  timeout: 10000,
+  timeout: 15000,
 });
 
 export const apiService = {
   getTopSales: async (): Promise<Item[]> => {
-    const response = await api.get('/top-sales');
+    const response = await api.get('/api/top-sales');
     return response.data;
   },
 
   getCategories: async (): Promise<Category[]> => {
-    const response = await api.get('/categories');
+    const response = await api.get('/api/categories');
     return response.data;
   },
 
@@ -25,16 +25,16 @@ export const apiService = {
     q?: string;
     offset?: number;
   }): Promise<Item[]> => {
-    const response = await api.get('/items', { params });
+    const response = await api.get('/api/items', { params });
     return response.data;
   },
 
   getItem: async (id: number): Promise<Item> => {
-    const response = await api.get(`/items/${id}`);
+    const response = await api.get(`/api/items/${id}`);
     return response.data;
   },
 
   postOrder: async (order: Order): Promise<void> => {
-    await api.post('/order', order);
+    await api.post('/api/order', order);
   },
 };

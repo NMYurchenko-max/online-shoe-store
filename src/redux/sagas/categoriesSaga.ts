@@ -1,15 +1,15 @@
 import { call, put, takeEvery, delay } from 'redux-saga/effects';
 import { apiService } from '@/services/api/apiService';
-import { fetchTopSalesStart, fetchTopSalesSuccess, fetchTopSalesFailure } from '../reducers/topSalesSlice';
+import { fetchCategoriesStart, fetchCategoriesSuccess, fetchCategoriesFailure } from '../reducers/categoriesSlice';
 
-function* fetchTopSales() {
+function* fetchCategories() {
   const maxRetries = 3;
   let retries = 0;
 
   while (retries < maxRetries) {
     try {
-      const items: Awaited<ReturnType<typeof apiService.getTopSales>> = yield call(apiService.getTopSales);
-      yield put(fetchTopSalesSuccess(items));
+      const categories: Awaited<ReturnType<typeof apiService.getCategories>> = yield call(apiService.getCategories);
+      yield put(fetchCategoriesSuccess(categories));
       return;
     } catch (error) {
       const errorMessage = error instanceof Error ? error.message : 'Unknown error';
@@ -18,12 +18,12 @@ function* fetchTopSales() {
         yield delay(1000);
         continue;
       }
-      yield put(fetchTopSalesFailure(errorMessage));
+      yield put(fetchCategoriesFailure(errorMessage));
       return;
     }
   }
 }
 
-export default function* topSalesSaga() {
-  yield takeEvery(fetchTopSalesStart.type, fetchTopSales);
+export default function* categoriesSaga() {
+  yield takeEvery(fetchCategoriesStart.type, fetchCategories);
 }

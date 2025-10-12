@@ -1,0 +1,78 @@
+.topSalesContainer {
+  display: flex;
+  gap: 24px;
+  overflow-x: auto;
+  padding: 8px 0;
+  justify-content: flex-start;
+}
+
+.topSalesItem {
+  flex: 0 0 auto;
+  width: 220px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  padding: 12px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.imageWrapper {
+  width: 100%;
+}
+
+.topSalesImage {
+  width: 100%;
+  height: 250px;
+  object-fit: contain;
+  margin-bottom: 12px;
+}
+
+.descriptionWrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 8px;
+  width: 100%;
+}
+
+.title {
+  margin: 0;
+  font-weight: 500;
+  text-align: center;
+}
+
+.price {
+  margin: 0;
+  font-weight: 400;
+  text-align: center;
+}
+
+.orderButton {
+  width: 90px;
+  height: 40px;
+  color: #007BFF;
+  background-color: transparent;
+  border: 2px solid #007BFF;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s ease, color 0.3s ease;
+  align-self: flex-start;
+}
+
+.orderButton:hover {
+  background-color: #007BFF;
+  color: white;
+}
+
+@media (min-width: 1600px) {
+  .topSalesItem {
+    width: 300px;
+    padding: 16px;
+  }
+
+  .topSalesImage {
+    height: 350px;
+    margin-bottom: 16px;
+  }
+}
