@@ -8,6 +8,10 @@ import { useAppDispatch } from '@/hooks/useAppDispatch';
 import { useAppSelector } from '@/hooks/useAppSelector';
 import { setSearchQuery } from '@/redux/reducers/catalogSlice';
 
+/**
+ * Компонент страницы каталога товаров.
+ * Управляет поиском через URL параметры и отображает фильтры и каталог.
+ */
 const CatalogPage = () => {
   const [searchParams] = useSearchParams();
   const location = useLocation();

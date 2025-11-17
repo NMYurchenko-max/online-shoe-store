@@ -5,6 +5,10 @@ import Preloader from '@/components/shared/Preloader';
 import styles from './MainPage.module.css';
 import { useAppSelector } from '@/hooks/useAppSelector';
 
+/**
+ * Компонент главной страницы.
+ * Отображает секции "Хиты продаж" и "Каталог товаров".
+ */
 const MainPage = () => {
   const catalogLoading = useAppSelector((state) => state.catalog.loading);
 

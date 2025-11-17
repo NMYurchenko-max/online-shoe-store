@@ -1,6 +1,10 @@
 import styles from './Footer.module.css';
 import { Link } from 'react-router-dom';
 
+/**
+ * Компонент подвала приложения.
+ * Содержит информацию о магазине, контакты, способы оплаты и социальные ссылки.
+ */
 const Footer = () => {
   return (
     <footer className={styles.footer}>

@@ -1,5 +1,12 @@
+/**
+ * Типы данных для приложения интернет-магазина обуви.
+ */
+
 // src/models/type.ts
 
+/**
+ * Пропсы для компонента баннера.
+ */
 export interface BannerProps {
   title?: string;
   subtitle?: string;
@@ -7,6 +14,9 @@ export interface BannerProps {
   image?: string;
 }
 
+/**
+ * Интерфейс товара.
+ */
 export interface Item {
   id: number;
   category: number;
@@ -21,11 +31,17 @@ export interface Item {
   sizes?: { size: string; available: boolean }[];
 }
 
+/**
+ * Интерфейс категории товаров.
+ */
 export interface Category {
   id: number;
   title: string;
 }
 
+/**
+ * Интерфейс элемента корзины.
+ */
 export interface CartItem {
   id: number;
   productId: number;
@@ -36,6 +52,9 @@ export interface CartItem {
   image: string;
 }
 
+/**
+ * Интерфейс заказа.
+ */
 export interface Order {
   owner: { phone: string; address: string };
   items: { id: number; price: number; count: number }[];
@@ -104,7 +123,13 @@ export interface AppState {
   };
   cart: {
     items: CartItem[];
-    totalCount: number;
+    positionsCount: number;
+    totalPrice: number;
+    order: {
+      sending: boolean;
+      success: boolean;
+      error: string | null;
+    };
   };
   order: {
     sending: boolean;

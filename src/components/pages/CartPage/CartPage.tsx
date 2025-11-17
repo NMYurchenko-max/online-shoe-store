@@ -1,7 +1,11 @@
-// src/components/pages/CartPage/CartPage.tsx
+import Cart from '@/components/entities/Cart/Cart';
 
+/**
+ * Компонент страницы корзины.
+ * Отображает содержимое корзины покупок.
+ */
 const CartPage = () => {
-  return <div>Страница корзины (в разработке)</div>;
+  return <Cart />;
 };
 
 export default CartPage;

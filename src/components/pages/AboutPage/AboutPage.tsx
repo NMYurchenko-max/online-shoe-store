@@ -1,5 +1,9 @@
 import styles from './AboutPage.module.css';
 
+/**
+ * Компонент страницы "О магазине".
+ * Отображает информацию о магазине и его преимуществах.
+ */
 const AboutPage = () => {
   return (
     <div className={styles.container}>

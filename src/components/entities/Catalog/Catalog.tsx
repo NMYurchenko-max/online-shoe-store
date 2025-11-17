@@ -1,4 +1,5 @@
 import { useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { useAppDispatch } from '@/hooks/useAppDispatch';
 import { useAppSelector } from '@/hooks/useAppSelector';
 import { fetchCatalogStart } from '@/redux/reducers/catalogSlice';
@@ -7,6 +8,7 @@ import ErrorMessage from '@/components/shared/ErrorMessage';
 import catalogStyles from './Catalog.module.css';
 
 const Catalog = () => {
+  const navigate = useNavigate();
   const dispatch = useAppDispatch();
   const { items, loading, error, hasMore, categoryId, searchQuery } = useAppSelector((state) => state.catalog);
 
@@ -30,9 +32,8 @@ const Catalog = () => {
     }
   };
 
-  const handleOrder = (item: unknown) => {
-    // TODO: добавить в корзину
-    console.log('Order item:', item);
+  const handleOrder = (item: Item) => {
+    navigate(`/product/${item.id}`);
   };
 
   if (error) return <ErrorMessage message={error} />;

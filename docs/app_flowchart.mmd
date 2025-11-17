@@ -1,0 +1,118 @@
+graph TD
+    Start([Пользователь открывает приложение]) --> Main[main.tsx]
+    Main --> Provider[Redux Provider]
+    Provider --> Router[React Router]
+    Router --> App[App.tsx]
+    
+    App --> Header[Header]
+    App --> Outlet[Outlet - Страницы]
+    App --> Footer[Footer]
+    
+    Outlet --> MainPage[MainPage /]
+    Outlet --> CatalogPage[CatalogPage /catalog]
+    Outlet --> ProductPage[ProductPage /product/:id]
+    Outlet --> CartPage[CartPage /cart]
+    Outlet --> AboutPage[AboutPage /about]
+    Outlet --> ContactsPage[ContactsPage /contacts]
+    Outlet --> NotFound[NotFoundPage /*]
+    
+    %% MainPage Flow
+    MainPage --> LoadTopSales[Загрузка хитов продаж]
+    MainPage --> LoadCategories[Загрузка категорий]
+    MainPage --> LoadCatalog[Загрузка каталога]
+    
+    LoadTopSales --> APITopSales[API: GET /api/top-sales]
+    LoadCategories --> APICategories[API: GET /api/categories]
+    LoadCatalog --> APICatalog[API: GET /api/items]
+    
+    APITopSales --> RenderTopSales[Отображение TopSales]
+    APICategories --> RenderCategories[Отображение Categories]
+    APICatalog --> RenderCatalog[Отображение Catalog]
+    
+    RenderCategories --> SelectCategory{Выбор категории?}
+    SelectCategory -->|Да| FilterCatalog[Фильтр по категории]
+    FilterCatalog --> APICatalog
+    
+    RenderCatalog --> LoadMore{Загрузить ещё?}
+    LoadMore -->|Да| APICatalogMore[API: GET /api/items?offset=N]
+    APICatalogMore --> AppendItems[Добавить товары]
+    
+    %% CatalogPage Flow
+    CatalogPage --> CheckSearch{Есть параметр q?}
+    CheckSearch -->|Да| SearchCatalog[Поиск товаров]
+    CheckSearch -->|Нет| LoadCatalogPage[Загрузка каталога]
+    
+    SearchCatalog --> APISearch[API: GET /api/items?q=text]
+    LoadCatalogPage --> APICatalog
+    
+    %% Header Search
+    Header --> SearchWidget[Виджет поиска]
+    SearchWidget --> ClickSearch{Клик на иконку}
+    ClickSearch -->|Первый клик| OpenSearch[Открыть поле]
+    ClickSearch -->|Второй клик с текстом| NavigateCatalog[Переход в /catalog?q=text]
+    ClickSearch -->|Второй клик без текста| CloseSearch[Закрыть поле]
+    
+    NavigateCatalog --> CatalogPage
+    
+    %% ProductPage Flow
+    ProductPage --> GetID[Получить :id из URL]
+    GetID --> LoadItem[Загрузка товара]
+    LoadItem --> APIItem[API: GET /api/items/:id]
+    APIItem --> RenderProduct[Отображение товара]
+    
+    RenderProduct --> SelectSize{Выбор размера}
+    SelectSize --> SelectQuantity{Выбор количества}
+    SelectQuantity --> AddToCart[Кнопка В корзину]
+    
+    AddToCart --> DispatchAdd[dispatch addToCart]
+    DispatchAdd --> SaveLS[Сохранить в localStorage]
+    SaveLS --> NavigateCart[Переход в /cart]
+    NavigateCart --> CartPage
+    
+    %% CartPage Flow
+    CartPage --> LoadCart[Загрузка из localStorage]
+    LoadCart --> RenderCart[Отображение корзины]
+    
+    RenderCart --> CartActions{Действия}
+    CartActions -->|Удалить| RemoveItem[removeFromCart]
+    CartActions -->|Изменить количество| UpdateCount[updateCartItemCount]
+    CartActions -->|Оформить заказ| OrderForm[Заполнение формы]
+    
+    RemoveItem --> UpdateLS[Обновить localStorage]
+    UpdateCount --> UpdateLS
+    
+    OrderForm --> SubmitOrder[Отправка заказа]
+    SubmitOrder --> APIOrder[API: POST /api/order]
+    APIOrder --> OrderSuccess{Успех?}
+    
+    OrderSuccess -->|Да| ClearCart[Очистить корзину]
+    OrderSuccess -->|Нет| ShowError[Показать ошибку]
+    
+    ClearCart --> ClearLS[Очистить localStorage]
+    ClearLS --> ShowSuccess[Показать успех]
+    
+    %% Redux Store
+    subgraph Redux Store
+        TopSalesState[topSales State]
+        CategoriesState[categories State]
+        CatalogState[catalog State]
+        ItemState[item State]
+        CartState[cart State]
+    end
+    
+    %% Sagas
+    subgraph Redux Saga
+        ItemSaga[itemSaga]
+        OrderSaga[orderSaga]
+    end
+    
+    LoadItem -.-> ItemSaga
+    SubmitOrder -.-> OrderSaga
+    
+    style Start fill:#e1f5e1
+    style MainPage fill:#fff4e1
+    style CatalogPage fill:#fff4e1
+    style ProductPage fill:#fff4e1
+    style CartPage fill:#fff4e1
+    style ShowSuccess fill:#e1f5e1
+    style ShowError fill:#ffe1e1

@@ -1,4 +1,5 @@
 import { useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { useAppDispatch } from '@/hooks/useAppDispatch';
 import { useAppSelector } from '@/hooks/useAppSelector';
 import { fetchTopSalesStart } from '@/redux/reducers/topSalesSlice';
@@ -8,6 +9,7 @@ import ErrorMessage from '@/components/shared/ErrorMessage';
 import styles from './TopSales.module.css';
 
 const TopSales = () => {
+  const navigate = useNavigate();
   const dispatch = useAppDispatch();
   const { items, loading, error } = useAppSelector((state) => state.topSales);
 
@@ -28,7 +30,7 @@ const TopSales = () => {
           <div className={styles.descriptionWrapper}>
             <p className={styles.title}>{item.title}</p>
             <p className={styles.price}>{item.price} ₽</p>
-            <button className={styles.orderButton}>Заказать</button>
+            <button className={styles.orderButton} onClick={() => navigate(`/product/${item.id}`)}>Заказать</button>
           </div>
         </div>
       ))}

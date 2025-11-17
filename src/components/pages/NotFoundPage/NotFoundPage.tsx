@@ -1,6 +1,9 @@
-//src / components / pages / NotFoundPage / NotFoundPage.tsx
 import styles from './NotFoundPage.module.css';
 
+/**
+ * Компонент страницы 404.
+ * Отображается при попытке доступа к несуществующему маршруту.
+ */
 const NotFoundPage = () => {
   return (
     <div className={styles.container}>

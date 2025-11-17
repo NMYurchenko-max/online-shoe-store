@@ -1,5 +1,9 @@
 import styles from './ContactsPage.module.css';
 
+/**
+ * Компонент страницы контактов.
+ * Отображает адрес, телефон и email для связи с магазином.
+ */
 const ContactsPage = () => {
   return (
     <div className={styles.container}>

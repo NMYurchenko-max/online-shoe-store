@@ -1,10 +1,17 @@
 import { Link } from 'react-router-dom';
+import { useAppSelector } from '@/hooks/useAppSelector';
 import styles from './Header.module.css';
 import Banner from '@/components/entities/Banner/Banner';
 import SearchWidget from '@/components/shared/widgets/SearchWidget';
 import CartWidget from '@/components/shared/widgets/CartWidget';
 
+/**
+ * Компонент заголовка приложения.
+ * Содержит логотип, навигацию, виджет поиска и корзины, а также баннер.
+ */
 const Header = () => {
+  const { positionsCount } = useAppSelector((state) => state.cart);
+
   return (
     <header className={styles.header}>
       <div className={styles.headerContainer}>
@@ -36,7 +43,7 @@ const Header = () => {
         {/* Панель управления */}
         <div className={styles.headerControls}>
           <SearchWidget />
-          <CartWidget count={3} />
+          <CartWidget count={positionsCount} />
         </div>
       </div>
 
