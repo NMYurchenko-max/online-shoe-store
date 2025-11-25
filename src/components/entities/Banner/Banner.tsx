@@ -2,6 +2,7 @@ import React from 'react';
 import styles from './Banner.module.css';
 import { type BannerProps } from '@/models/type';
 
+
 const Banner: React.FC<BannerProps> = ({
   title = 'К весне готовы!',
 }) => {

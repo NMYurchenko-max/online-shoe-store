@@ -74,7 +74,7 @@ function* sendOrderSaga(action: SendOrderAction): Generator {
             errorData.error ||
             errorData.message ||
             (typeof errorData.result !== 'undefined'
-              ? `Ошибка сервер�� (код: ${String(errorData.result)})`
+              ? `Ошибка сервера (код: ${String(errorData.result)})`
               : errorMessage);
         }
       }

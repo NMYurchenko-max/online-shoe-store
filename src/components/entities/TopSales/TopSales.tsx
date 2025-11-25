@@ -8,16 +8,24 @@ import Preloader from '@/components/shared/Preloader';
 import ErrorMessage from '@/components/shared/ErrorMessage';
 import styles from './TopSales.module.css';
 
+/**
+ * Компонент для отображения блока с товарами наибольшей популярностью
+ * Загружает и отображает список 
+ */
 const TopSales = () => {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
+  // Получение состояния загрузки товаров-хитов из Redux store
   const { items, loading, error } = useAppSelector((state) => state.topSales);
 
+  // Загрузка товаров-хитов при монтировании компонента
   useEffect(() => {
     dispatch(fetchTopSalesStart());
   }, [dispatch]);
 
+  // Отображение индикатора загрузки
   if (loading) return <Preloader show={true} />;
+  // Отображение сообщения об ошибке при наличии ошибки
   if (error) return <ErrorMessage message={error} />;
 
   return (

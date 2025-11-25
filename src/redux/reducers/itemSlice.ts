@@ -29,7 +29,7 @@ const itemSlice = createSlice({
     fetchItemStart: (state, action: PayloadAction<number>) => {
       state.loading = true;
       state.error = null;
-      // action.payload is the item id, but not used in reducer
+      //action.payload — это идентификатор элемента, но он не используется в редукторе
       // eslint-disable-next-line @typescript-eslint/no-unused-expressions
       [action];
     },

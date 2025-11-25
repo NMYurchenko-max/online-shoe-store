@@ -19,14 +19,27 @@ const Cart = () => {
   const [address, setAddress] = useState('');
   const [agreement, setAgreement] = useState(false);
 
+  /**
+   * Удаляет товар из корзины по идентификатору.
+   * @param id - Идентификатор товара для удаления.
+   */
   const handleRemove = (id: number) => {
     dispatch(removeFromCart(id));
   };
 
+  /**
+   * Обновляет количество товара в корзине.
+   * @param id - Идентификатор товара.
+   * @param count - Новое количество товара.
+   */
   const handleUpdateCount = (id: number, count: number) => {
     dispatch(updateCount({ id, count }));
   };
 
+  /**
+   * Оформляет заказ, отправляя данные о товарах, телефоне и адресе.
+   * Проверяет заполненность всех обязательных полей перед отправкой.
+   */
   const handleCheckout = () => {
     const normalizedPhone = phone.trim();
     const normalizedAddress = address.trim();

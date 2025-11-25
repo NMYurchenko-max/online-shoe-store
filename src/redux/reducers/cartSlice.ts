@@ -83,7 +83,7 @@ const cartSlice = createSlice({
         existingItem.count += count;
       } else {
         const newItem: CartItem = {
-          id: Date.now(), // temporary id for cart item
+          id: Date.now(), // временный идентификатор товара в корзине
           productId,
           size,
           count,
@@ -93,7 +93,7 @@ const cartSlice = createSlice({
         };
         state.items.push(newItem);
       }
-      // Reset order state on adding items to allow accumulating a new cart
+      // Сбросить состояние заказа при добавлении товаров, чтобы можно было накопить новую корзину
       state.order.sending = false;
       state.order.success = false;
       state.order.error = null;
@@ -122,8 +122,8 @@ const cartSlice = createSlice({
       saveCartToStorage(state);
     },
     sendOrderRequest: (state, action: PayloadAction<{ phone: string; address: string; items: { id: number; price: number; count: number }[] }>) => {
-      // Saga trigger action: state changes are handled by sendOrderStart/Success/Failure
-      // No state changes here, just triggering the saga
+     //Действие триггера Saga: изменения состояния обрабатываются sendOrderStart/Success/Failure
+      //Здесь никаких изменений состояния, просто запуск саги
       // eslint-disable-next-line @typescript-eslint/no-unused-expressions
       [state, action];
     },

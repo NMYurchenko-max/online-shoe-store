@@ -13,21 +13,66 @@ import styles from './ProductPage.module.css';
  * Компонент страницы товара.
  * Отображает детальную информацию о товаре, позволяет выбрать размер и количество,
  * и добавить товар в корзину.
+ *
+ * @component
+ * @example
+ * return (
+ *   <ProductPage />
+ * )
  */
 const ProductPage = () => {
+  /**
+   * Параметры URL, содержащие ID товара
+   * @type {string | undefined}
+   */
   const { id } = useParams<{ id: string }>();
+  
+  /**
+   * Функция навигации между страницами
+   */
   const navigate = useNavigate();
+  
+  /**
+   * Функция отправки действий в Redux store
+   */
   const dispatch = useAppDispatch();
+  
+  /**
+   * Состояние товара из Redux store
+   * @type {{ item: Item | null, loading: boolean, error: string | null }}
+   */
   const { item, loading, error } = useAppSelector((state) => state.item);
+  
+  /**
+   * Выбранный размер товара
+   * @type {[string, function]}
+   */
   const [selectedSize, setSelectedSize] = useState<string>('');
+  
+  /**
+   * Количество товара для добавления в корзину
+   * @type {[number, function]}
+   */
   const [quantity, setQuantity] = useState<number>(1);
 
+  /**
+   * Эффект загрузки данных о товаре при изменении ID
+   * @function
+   * @name useEffect
+   * @returns {void}
+   */
   useEffect(() => {
     if (id) {
       dispatch(fetchItemStart(parseInt(id, 10)));
     }
   }, [dispatch, id]);
 
+  /**
+   * Добавляет товар в корзину и перенаправляет на страницу корзины
+   * @param {Item} item - Объект товара для добавления
+   * @param {string} size - Выбранный размер товара
+   * @returns {void}
+   */
   const handleAddToCart = (item: Item, size: string) => {
     dispatch(addToCart({ productId: item.id, size, count: quantity, price: item.price, title: item.title, image: item.images[0] }));
     navigate('/cart');

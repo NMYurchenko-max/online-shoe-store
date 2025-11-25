@@ -7,6 +7,13 @@ import type { Item } from '@/models/type';
 import ErrorMessage from '@/components/shared/ErrorMessage';
 import catalogStyles from './Catalog.module.css';
 
+/**
+ * Компонент каталога товаров обуви
+ *
+ * Отображает список товаров с возможностью загрузки дополнительных элементов.
+ * Обрабатывает фильтрацию по категории и поисковому запросу.
+ * При клике на товар переходит на страницу деталей продукта.
+ */
 const Catalog = () => {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
@@ -25,6 +32,12 @@ const Catalog = () => {
     }
   }, [dispatch, categoryId, searchQuery]);
 
+  /**
+   * Загружает дополнительные товары при прокрутке
+   *
+   * Проверяет наличие дополнительных товаров и отсутствие активной загрузки,
+   * затем отправляет запрос на сервер с новым смещением.
+   */
   const handleLoadMore = () => {
     if (hasMore && !loading) {
       const newOffset = items.length;
@@ -32,6 +45,11 @@ const Catalog = () => {
     }
   };
 
+  /**
+   * Переходит на страницу товара
+   *
+   * @param item - Объект товара для отображения
+   */
   const handleOrder = (item: Item) => {
     navigate(`/product/${item.id}`);
   };

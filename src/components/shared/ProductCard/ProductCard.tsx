@@ -7,6 +7,13 @@ interface ProductCardProps {
   onOrder?: (item: Item) => void;
 }
 
+/**
+ * Компонент карточки товара.
+ * Отображает информацию о товаре и предоставляет кнопку для заказа.
+ *
+ * @param item - Объект товара с информацией о нем
+ * @param onOrder - Функция обратного вызова для обработки заказа товара
+ */
 const ProductCard: React.FC<ProductCardProps> = ({ item, onOrder }) => {
   const handleOrder = () => {
     if (onOrder) {
