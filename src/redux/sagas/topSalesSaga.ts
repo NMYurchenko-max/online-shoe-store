@@ -2,6 +2,10 @@ import { call, put, takeEvery, delay } from 'redux-saga/effects';
 import { apiService } from '@/services/api/apiService';
 import { fetchTopSalesStart, fetchTopSalesSuccess, fetchTopSalesFailure } from '../reducers/topSalesSlice';
 
+/**
+ * Saga для загрузки хитов продаж.
+ * Выполняет запрос к API, при ошибках с таймаутом – повторяет до 3 раз.
+ */
 function* fetchTopSales() {
   const maxRetries = 3;
   let retries = 0;
@@ -24,6 +28,10 @@ function* fetchTopSales() {
   }
 }
 
+/**
+ * Watcher saga для хитов продаж.
+ * Слушает действия fetchTopSalesStart и запускает fetchTopSales.
+ */
 export default function* topSalesSaga() {
   yield takeEvery(fetchTopSalesStart.type, fetchTopSales);
 }

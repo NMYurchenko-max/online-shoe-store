@@ -1,3 +1,6 @@
+%% Диаграмма потока приложения "Интернет-магазин обуви"
+%% Отображает последовательность загрузки компонентов и взаимодействия с API
+
 graph TD
     Start([Пользователь открывает приложение]) --> Main[main.tsx]
     Main --> Provider[Redux Provider]
@@ -15,7 +18,7 @@ graph TD
     Outlet --> AboutPage[AboutPage /about]
     Outlet --> ContactsPage[ContactsPage /contacts]
     Outlet --> NotFound[NotFoundPage /*]
-    
+
     %% MainPage Flow
     MainPage --> LoadTopSales[Загрузка хитов продаж]
     MainPage --> LoadCategories[Загрузка категорий]

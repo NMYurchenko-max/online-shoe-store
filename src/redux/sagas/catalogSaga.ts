@@ -7,6 +7,12 @@ import {
 } from '../reducers/catalogSlice';
 import type { RootState } from '../reducers';
 
+/**
+ * Saga для загрузки каталога.
+ * Выполняет запрос к API с параметрами категории, поискового запроса и смещения.
+ * При ошибке повторяет запрос до 3 раз с задержкой.
+ * @param action - Действие запуска загрузки каталога с параметрами.
+ */
 function* fetchCatalog(action: ReturnType<typeof fetchCatalogStart>) {
   const maxRetries = 3;
   let retries = 0;
@@ -37,6 +43,10 @@ function* fetchCatalog(action: ReturnType<typeof fetchCatalogStart>) {
   }
 }
 
+/**
+ * Watcher saga каталога.
+ * Слушает действия fetchCatalogStart и запускает fetchCatalog.
+ */
 export default function* catalogSaga() {
   yield takeLatest(fetchCatalogStart.type, fetchCatalog);
 }

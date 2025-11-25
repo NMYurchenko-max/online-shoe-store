@@ -2,6 +2,10 @@ import { call, put, takeEvery, delay } from 'redux-saga/effects';
 import { apiService } from '@/services/api/apiService';
 import { fetchCategoriesStart, fetchCategoriesSuccess, fetchCategoriesFailure } from '../reducers/categoriesSlice';
 
+/**
+ * Saga для загрузки категорий.
+ * Выполняет запрос к API с повторной попыткой при ошибках, включая таймаут.
+ */
 function* fetchCategories() {
   const maxRetries = 3;
   let retries = 0;
@@ -24,6 +28,10 @@ function* fetchCategories() {
   }
 }
 
+/**
+ * Watcher saga категорий.
+ * Прослушивает действие fetchCategoriesStart и запускает fetchCategories.
+ */
 export default function* categoriesSaga() {
   yield takeEvery(fetchCategoriesStart.type, fetchCategories);
 }

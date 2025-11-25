@@ -28,13 +28,20 @@ const Cart = () => {
   };
 
   const handleCheckout = () => {
-    if (phone && address && agreement) {
-      const orderItems = items.map(item => ({
-        id: item.productId,
-        price: item.price,
-        count: item.count,
-      }));
-      dispatch(sendOrderRequest({ phone, address, items: orderItems }));
+    const normalizedPhone = phone.trim();
+    const normalizedAddress = address.trim();
+    if (normalizedPhone && normalizedAddress && agreement) {
+      const orderItems = items
+        .map(item => ({
+          id: Number(item.productId),
+          price: Number(item.price),
+          count: Number(item.count),
+        }))
+        .filter(it => Number.isFinite(it.id) && Number.isFinite(it.price) && Number.isFinite(it.count) && it.count > 0);
+      if (orderItems.length === 0) {
+        return;
+      }
+      dispatch(sendOrderRequest({ phone: normalizedPhone, address: normalizedAddress, items: orderItems }));
     }
   };
 
@@ -138,7 +145,7 @@ const Cart = () => {
             <button
               className={styles.checkoutButton}
               onClick={handleCheckout}
-              disabled={!phone || !address || !agreement || order.sending}
+              disabled={!phone.trim() || !address.trim() || !agreement || order.sending}
             >
               {order.sending ? 'Отправка...' : 'Оформить'}
             </button>
